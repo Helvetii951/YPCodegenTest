@@ -53,7 +53,7 @@ final  class  NetworkService: NetworkServiceProtocol {
         let httpBody = try response.ok.body.html
         let data = try await Data(collecting: httpBody, upTo: 100 * 1024 * 1024)
         let stationList = try JSONDecoder().decode(StationsList.self, from: data)
-        // более элегантное решение
+        // решение покрасивее
         //  let stationList = try await JSONDecoder().decode(from: httpBody, to: StationsList.self)
         return stationList
     }
