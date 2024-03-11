@@ -1,7 +1,7 @@
 # YPCodegenTest
 ## Ошибка при выполнении запроса `GET /stations_list/`
 
-Скорее всего, в `openapi.yaml` прописан только ответ с форматом `application/json`. Но этот запрос возвращает `text/html`.
+Скорее всего, в `openapi.yaml` прописан только ответ с content-type `application/json`. Но этот запрос возвращает `text/html`.
 
 <a href="https://ibb.co/rc9JCBS"><img src="https://i.ibb.co/LJKfLTW/2024-03-11-09-49-09.png" alt="2024-03-11-09-49-09" border="0"></a>
 
