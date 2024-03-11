@@ -1,0 +1,520 @@
+openapi: 3.0.3
+info:
+  title: YAML YP Test - OpenAPI 3.0
+  description: |-
+    YAML YP Test
+  contact:
+    email: helvetii951@gmail.com
+  version: 1.0.0
+servers:
+  - url: https://api.rasp.yandex.net/v3.0
+
+paths:
+  /stations_list/:
+    get:
+      tags:
+      - stations_list
+      summary: Список всех доступных станций
+      operationId: getStationsList
+      parameters:
+        - name: apikey
+          in: query
+          description: API key for access. Can also be provided in the Authorization header.
+          required: false
+          schema:
+            type: string
+        - name: format
+          in: query
+          description: Response format, either JSON or XML. Default is JSON.
+          required: false
+          schema:
+            type: string
+            enum:
+              - json
+              - xml
+        - name: lang
+          in: query
+          description: Language of the returned information (ISO 639 code_country code).
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Hierarchical list of countries, regions, settlements, and stations.
+          content:
+            text/html:
+              schema:
+                $ref: '#/components/schemas/StationsList'
+                
+components:
+  schemas:
+    SearchResponse:
+        type: object
+        properties:
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+            interval_segments:
+              type: array
+              items:
+                $ref: '#/components/schemas/IntervalSegment'
+            segments:
+              type: array
+              items:
+                $ref: '#/components/schemas/Segment'
+            search:
+              $ref: '#/components/schemas/Search'
+    ScheduleResponse:
+        type: object
+        properties:
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+            date:
+              type: string
+            station:
+              $ref: '#/components/schemas/Station'
+            schedule:
+              type: array
+              items:
+                $ref: '#/components/schemas/Schedule'
+            schedule_direction:
+              $ref: '#/components/schemas/ScheduleDirection'
+            directions:
+              type: array
+              items:
+                $ref: '#/components/schemas/Direction'
+    ThreadResponse:
+        type: object
+        properties:
+            except_days:
+              type: string
+            arrival_date:
+              type: string
+            from:
+              type: string
+            uid:
+              type: string
+            title:
+              type: string
+            interval:
+              $ref: '#/components/schemas/Interval'
+            departure_date:
+              type: string
+            start_time:
+              type: string
+            number:
+              type: string
+            short_title:
+              type: string
+            days:
+              type: string
+            to:
+              type: string
+            carrier:
+              $ref: '#/components/schemas/Carrier'
+            stops:
+              type: array
+              items:
+                $ref: '#/components/schemas/Stop'
+            vehicle:
+              type: string
+            start_date:
+              type: string
+            transport_subtype:
+              $ref: '#/components/schemas/TransportSubtype'
+            express_type:
+              type: string
+    StationsResponse:
+        type: object
+        properties:
+            pagination:
+              $ref: '#/components/schemas/Pagination'
+            stations:
+              type: array
+              items:
+                $ref: '#/components/schemas/Station'
+    NearestSettlementResponse:
+        type: object
+        properties:
+            distance:
+              type: number
+            code:
+              type: string
+            title:
+              type: string
+            popular_title:
+              type: string
+            short_title:
+              type: string
+            lat:
+              type: number
+            lng:
+              type: number
+            type:
+              type: string
+    CarrierResponse:
+        type: object
+        properties:
+            carrier:
+              $ref: '#/components/schemas/Carrier'
+    StationsList:
+        type: object
+        properties:
+            countries:
+              type: array
+              items:
+                $ref: '#/components/schemas/Country'
+    CopyrightInfo:
+        type: object
+        properties:
+            copyright:
+              $ref: '#/components/schemas/Copyright'
+    Pagination:
+        type: object
+        properties:
+            total:
+              type: integer
+            limit:
+              type: integer
+            offset:
+              type: integer
+    IntervalSegment:
+        type: object
+        properties:
+            from:
+              $ref: '#/components/schemas/Station'
+            thread:
+              $ref: '#/components/schemas/Thread'
+            departure_platform:
+              type: string
+            stops:
+              type: string
+            departure_terminal:
+              type: string
+            to:
+              $ref: '#/components/schemas/Station'
+            has_transfers:
+              type: boolean
+            tickets_info:
+              $ref: '#/components/schemas/TicketsInfo'
+            duration:
+              type: integer
+            arrival_terminal:
+              type: string
+            start_date:
+              type: string
+            arrival_platform:
+              type: string
+    Segment:
+        type: object
+        properties:
+          arrival:
+            type: string
+          from:
+            $ref: '#/components/schemas/Station'
+          thread:
+            $ref: '#/components/schemas/Thread'
+          departure_platform:
+            type: string
+          departure:
+            type: string
+          stops:
+            type: string
+          departure_terminal:
+            type: string
+          to:
+            $ref: '#/components/schemas/Station'
+          has_transfers:
+            type: boolean
+          tickets_info:
+            $ref: '#/components/schemas/TicketsInfo'
+          duration:
+            type: integer
+          arrival_terminal:
+            type: string
+          start_date:
+            type: string
+          arrival_platform:
+            type: string
+    Station:
+        type: object
+        properties:
+          code:
+            type: string
+          title:
+            type: string
+          station_type:
+            type: string
+          station_type_name:
+            type: string
+          popular_title:
+            type: string
+          short_title:
+            type: string
+          transport_type:
+            type: string
+          type:
+            type: string
+          codes:
+            $ref: '#/components/schemas/Codes'
+          distance:
+            type: number
+          type_choices:
+            $ref: '#/components/schemas/TypeChoice'
+          majority:
+            type: integer
+          lat:
+            type: number
+          lng:
+            type: number
+    Thread:
+        type: object
+        properties:
+          uid:
+            type: string
+          title:
+            type: string
+          interval:
+            $ref: '#/components/schemas/Interval'
+          number:
+            type: string
+          short_title:
+            type: string
+          thread_method_link:
+            type: string
+          carrier:
+            $ref: '#/components/schemas/Carrier'
+          transport_type:
+            type: string
+          vehicle:
+            type: string
+          transport_subtype:
+            $ref: '#/components/schemas/TransportSubtype'
+          express_type:
+            type: string
+    Interval:
+        type: object
+        properties:
+          density:
+            type: string
+          end_time:
+            type: string
+          begin_time:
+            type: string
+    TicketsInfo:
+        type: object
+        properties:
+          et_marker:
+            type: boolean
+          places:
+            type: array
+            items:
+              $ref: '#/components/schemas/Place'
+    Place:
+        type: object
+        properties:
+          currency:
+            type: string
+          price:
+            $ref: '#/components/schemas/Price'
+          name:
+            type: string
+    Price:
+        type: object
+        properties:
+          cents:
+            type: integer
+          whole:
+            type: integer
+    Carrier:
+        type: object
+        properties:
+          code:
+            type: integer
+          contacts:
+            type: string
+          url:
+            type: string
+          logo_svg:
+            type: string
+          title:
+            type: string
+          phone:
+            type: string
+          codes:
+            $ref: '#/components/schemas/Code'
+          address:
+            type: string
+          logo:
+            type: string
+          email:
+            type: string
+    TransportSubtype:
+        type: object
+        properties:
+          color:
+            type: string
+          code:
+            type: string
+          title:
+            type: string
+    Code:
+        type: object
+        properties:
+          icao:
+            type: string
+          sirena:
+            type: string
+          iata:
+            type: string
+    Search:
+        type: object
+        properties:
+          date:
+            type: string
+          to:
+            $ref: '#/components/schemas/Station'
+          from:
+            $ref: '#/components/schemas/Station'
+    Schedule:
+        type: object
+        properties:
+          except_days:
+            type: string
+          arrival:
+            type: string
+          thread:
+            $ref: '#/components/schemas/Thread'
+          is_fuzzy:
+            type: boolean
+          days:
+            type: string
+          stops:
+            type: string
+          departure:
+            type: string
+          terminal:
+            type: string
+          platform:
+            type: string
+    Codes:
+        type: object
+        properties:
+          yandex:
+            type: string
+          esr:
+            type: string
+          express:
+            type: string
+    ScheduleDirection:
+        type: object
+        properties:
+          code:
+            type: string
+          title:
+            type: string
+    Direction:
+        type: object
+        properties:
+          code:
+            type: string
+          title:
+            type: string
+    Stop:
+        type: object
+        properties:
+          arrival:
+            type: string
+          departure:
+            type: string
+          duration:
+            type: integer
+          stop_time:
+            type: integer
+          station:
+            $ref: '#/components/schemas/Station'
+          terminal:
+            type: string
+          platform:
+            type: string
+    TypeChoice:
+        type: object
+        properties:
+          schedule:
+            $ref: '#/components/schemas/TypeChoiceURL'
+    TypeChoiceURL:
+        type: object
+        properties:
+          desktop_url:
+            type: string
+          touch_url:
+            type: string
+    Country:
+        type: object
+        properties:
+          regions:
+            type: array
+            items:
+              $ref: '#/components/schemas/Region'
+          codes:
+            $ref: '#/components/schemas/CountiesCodes'
+          title:
+            type: string
+    Region:
+        type: object
+        properties:
+          settlements:
+            type: array
+            items:
+              $ref: '#/components/schemas/Settlement'
+          codes:
+            $ref: '#/components/schemas/CountiesCodes'
+          title:
+            type: string
+    Settlement:
+        type: object
+        properties:
+          stations:
+            type: array
+            items:
+              $ref: '#/components/schemas/Stations'
+          codes:
+            $ref: '#/components/schemas/CountiesCodes'
+          title:
+            type: string
+    Stations:
+        type: object
+        properties:
+          direction:
+            type: string
+          codes:
+            $ref: '#/components/schemas/CountiesCodes'
+          station_type:
+            type: string
+          title:
+            type: string
+    CountiesCodes:
+        type: object
+        properties:
+          esr_code:
+            type: string
+          yandex_code:
+            type: string
+    Copyright:
+        type: object
+        properties:
+          logo_vm:
+            type: string
+          url:
+            type: string
+          logo_vd:
+            type: string
+          logo_hy:
+            type: string
+          logo_hd:
+            type: string
+          logo_vy:
+            type: string
+          text:
+            type: string
+          logo_hm:
+            type: string
