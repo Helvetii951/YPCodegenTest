@@ -21,8 +21,7 @@ paths:
           description: Hierarchical list of countries, regions, settlements, and stations.
           content:
             text/html:
-              schema:
-                $ref: '#/components/schemas/StationsList'
+              schema: {}
 ...
 ```
 
